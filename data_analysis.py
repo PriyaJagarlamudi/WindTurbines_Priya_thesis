@@ -47,7 +47,7 @@ def splitting_valid_float(data, status_data):
     # getting the valid data
     data_valid = data[data.system_status.isin(common_status)]
     data_float = data[~data.system_status.isin(common_status)]
-    # converting the required data from the status_data into a dictionary    
+
     return data_valid, data_float
 
 

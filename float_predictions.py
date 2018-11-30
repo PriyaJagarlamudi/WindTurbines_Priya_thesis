@@ -10,8 +10,8 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score
+#from sklearn.model_selection import cross_val_score
+from sklearn.metrics import accuracy_score, f1_score
 
 
 
@@ -29,7 +29,7 @@ def split_data_valid(data_valid):
 
 
 def processing_data_float(data_float):
-    target_float = data_float['system_status']
+    target_float = pd.Categorical(data_float['system_status'])
     data_float.drop(['system_status'], axis=1, inplace=True)    
     return data_float, target_float 
 
@@ -86,10 +86,11 @@ data = preprocessing(data)
 data_split = splitting_valid_float(data, status_data)
 data_valid = data_split[0]
 data_float = data_split[1]
-data_whole = whole_data_test(data)
+data_whole = whole_data_test(data_valid)
 train_x, val_x, train_y, val_y  = data_whole[0], data_whole[1], data_whole[2], data_whole[3]
 float_data = processing_data_float(data_float)
 data_float = float_data[0]
 target_float = float_data[1]
 pred_float = classifier_float(train_x, val_x, train_y, val_y, data_float, target_float)
-writing_file(pred_float, target_float)
+#f1_score = f1_score(target_float, pred_float, average='macro')
+print(pred_float)
